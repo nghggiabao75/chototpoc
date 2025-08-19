@@ -1,6 +1,6 @@
 'use client';
 
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, MessageCircle, Share2, Video } from 'lucide-react';
 
 const Footer = () => {
   const footerSections = [
@@ -34,10 +34,10 @@ const Footer = () => {
     {
       title: 'Kết Nối Với Chúng Tôi',
       links: [
-        { label: 'Facebook', href: '#', icon: Facebook },
-        { label: 'Instagram', href: '#', icon: Instagram },
-        { label: 'Twitter', href: '#', icon: Twitter },
-        { label: 'Youtube', href: '#', icon: Youtube }
+        { label: 'Facebook', href: '#', icon: Globe },
+        { label: 'Instagram', href: '#', icon: MessageCircle },
+        { label: 'Twitter', href: '#', icon: Share2 },
+        { label: 'Youtube', href: '#', icon: Video }
       ]
     }
   ];
@@ -90,8 +90,8 @@ const Footer = () => {
               </h3>
               <ul className="space-y-2">
                 {section.links.map((link, linkIndex) => {
-                  const IconComponent = link.icon;
-                  
+                  const IconComponent = 'icon' in link ? link.icon : null;
+
                   return (
                     <li key={linkIndex}>
                       <a
