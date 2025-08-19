@@ -65,7 +65,7 @@ const HeroBanner = () => {
                 </div>
 
                 {/* Decorative elements */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-400/20"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-green-600/20 to-green-400/20"></div>
               </div>
             </div>
           ))}
@@ -90,9 +90,9 @@ const HeroBanner = () => {
 
         {/* Slide Indicators */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {banners.map((_, index) => (
+          {banners.map((banner, index) => (
             <button
-              key={index}
+              key={banner.id}
               onClick={() => setCurrentSlide(index)}
               className={`w-3 h-3 rounded-full transition-all duration-200 ${
                 index === currentSlide

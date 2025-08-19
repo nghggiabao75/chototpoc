@@ -18,33 +18,34 @@ const Header = () => {
   return (
     <header className="bg-white shadow-md border-b border-gray-200 sticky top-0 z-50">
       {/* Top Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+            className="md:hidden p-2 rounded-lg text-gray-600 hover:text-green-600 hover:bg-green-50 transition-colors duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="h-5 w-5" />
           </button>
 
           {/* Search Bar - Mobile */}
-          <div className="flex-1 md:hidden mx-4">
+          <div className="flex-1 md:hidden mx-2 sm:mx-4">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+                <Search className="h-4 w-4 text-gray-400" />
               </div>
               <input
                 type="text"
-                placeholder="Tìm kiếm sản phẩm..."
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-full leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
+                placeholder="Tìm kiếm..."
+                className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-full leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 min-h-[40px]"
               />
             </div>
           </div>
 
           {/* Logo */}
           <div className="flex-shrink-0">
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-xl sm:text-2xl font-bold text-green-600">
               ChợTốt
             </div>
           </div>
@@ -75,8 +76,8 @@ const Header = () => {
             </button>
             
             {/* Mobile auth */}
-            <button className="sm:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100">
-              <User className="h-6 w-6" />
+            <button className="sm:hidden p-2 rounded-lg text-gray-600 hover:text-green-600 hover:bg-green-50 transition-colors duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center">
+              <User className="h-5 w-5" />
             </button>
           </div>
         </div>
@@ -108,16 +109,15 @@ const Header = () => {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <nav className="md:hidden py-4 border-t border-gray-200">
-              <div className="space-y-2">
+            <nav className="md:hidden py-4 border-t border-gray-200 bg-white">
+              <div className="space-y-1">
                 {navigationItems.map((item) => (
-                  <a
+                  <button
                     key={item.id}
-                    href={item.href}
-                    className="block px-3 py-2 text-gray-700 hover:text-green-600 hover:bg-gray-50 rounded-md transition-colors"
+                    className="block w-full text-left px-4 py-3 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors duration-200 min-h-[48px] font-medium"
                   >
                     {item.label}
-                  </a>
+                  </button>
                 ))}
               </div>
             </nav>

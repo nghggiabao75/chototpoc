@@ -23,7 +23,6 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, showDiscount = false }: ProductCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -70,7 +69,7 @@ const ProductCard = ({ product, showDiscount = false }: ProductCardProps) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
       {/* Product Image */}
-      <div className="relative aspect-square overflow-hidden">
+      <div className="relative aspect-square overflow-hidden touch-manipulation">
         {/* Image Placeholder */}
         <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-full flex items-center justify-center">
           <div className="text-gray-500 text-center">
@@ -105,31 +104,32 @@ const ProductCard = ({ product, showDiscount = false }: ProductCardProps) => {
         {/* Like Button */}
         <button
           onClick={() => setIsLiked(!isLiked)}
-          className="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all duration-200 opacity-0 group-hover:opacity-100"
+          className="absolute top-2 right-2 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all duration-200 opacity-0 group-hover:opacity-100 sm:opacity-100 min-w-[36px] min-h-[36px] flex items-center justify-center"
+          aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
         >
-          <Heart 
+          <Heart
             className={`h-4 w-4 transition-colors duration-200 ${
               isLiked ? 'fill-red-500 text-red-500' : 'text-gray-600 hover:text-red-500'
-            }`} 
+            }`}
           />
         </button>
       </div>
 
       {/* Product Info */}
-      <div className="p-3">
+      <div className="p-3 sm:p-4">
         {/* Product Title */}
-        <h3 className="font-medium text-gray-900 mb-2 line-clamp-2 text-sm leading-relaxed">
+        <h3 className="font-medium text-gray-900 mb-2 line-clamp-2 text-sm sm:text-base leading-relaxed">
           {product.title}
         </h3>
         
         {/* Price Section */}
         <div className="mb-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-lg font-bold text-green-600">
+          <div className="flex items-center space-x-2 flex-wrap">
+            <span className="text-base sm:text-lg font-bold text-green-600">
               {formatPrice(displayPrice)}
             </span>
             {showDiscount && product.originalPrice && product.salePrice && (
-              <span className="text-sm text-gray-500 line-through">
+              <span className="text-xs sm:text-sm text-gray-500 line-through">
                 {formatPrice(originalPrice)}
               </span>
             )}
