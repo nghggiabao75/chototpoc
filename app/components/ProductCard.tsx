@@ -1,7 +1,6 @@
 'use client';
 
-import { Star, MapPin, Shield, Heart } from 'lucide-react';
-import { useState } from 'react';
+import { Star, MapPin, Store } from 'lucide-react';
 
 interface ProductCardProps {
   product: {
@@ -17,12 +16,16 @@ interface ProductCardProps {
     location?: string;
     isVerified?: boolean;
     isFreeShipping?: boolean;
+    shop?: {
+      name: string;
+      rating?: number;
+      isVerified?: boolean;
+    };
   };
   showDiscount?: boolean;
 }
 
 const ProductCard = ({ product, showDiscount = false }: ProductCardProps) => {
-  const [isLiked, setIsLiked] = useState(false);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -67,9 +70,9 @@ const ProductCard = ({ product, showDiscount = false }: ProductCardProps) => {
   const originalPrice = product.originalPrice || product.price || 0;
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group cursor-pointer h-full flex flex-col my-2">
       {/* Product Image */}
-      <div className="relative aspect-square overflow-hidden touch-manipulation">
+      <div className="relative aspect-square overflow-hidden touch-manipulation flex-shrink-0">
         {/* Image Placeholder */}
         <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-full flex items-center justify-center">
           <div className="text-gray-500 text-center">
@@ -87,10 +90,10 @@ const ProductCard = ({ product, showDiscount = false }: ProductCardProps) => {
           </div>
         )}
 
-        {/* Verified Badge */}
+        {/* VIP Badge */}
         {product.isVerified && (
-          <div className="absolute top-2 right-2 bg-green-500 text-white p-1 rounded-full shadow-sm">
-            <Shield className="h-3 w-3" />
+          <div className="absolute top-2 right-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-1 rounded-full shadow-sm">
+            <span className="text-xs font-bold">VIP</span>
           </div>
         )}
 
@@ -101,24 +104,13 @@ const ProductCard = ({ product, showDiscount = false }: ProductCardProps) => {
           </div>
         )}
 
-        {/* Like Button */}
-        <button
-          onClick={() => setIsLiked(!isLiked)}
-          className="absolute top-2 right-2 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all duration-200 opacity-0 group-hover:opacity-100 sm:opacity-100 min-w-[36px] min-h-[36px] flex items-center justify-center"
-          aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
-        >
-          <Heart
-            className={`h-4 w-4 transition-colors duration-200 ${
-              isLiked ? 'fill-red-500 text-red-500' : 'text-gray-600 hover:text-red-500'
-            }`}
-          />
-        </button>
+
       </div>
 
       {/* Product Info */}
-      <div className="p-3 sm:p-4">
+      <div className="p-3 sm:p-4 flex-1 flex flex-col">
         {/* Product Title */}
-        <h3 className="font-medium text-gray-900 mb-2 line-clamp-2 text-sm sm:text-base leading-relaxed">
+        <h3 className="font-medium text-gray-900 mb-2 line-clamp-2 text-sm sm:text-base leading-relaxed min-h-[2.5rem] sm:min-h-[3rem]">
           {product.title}
         </h3>
         
@@ -147,6 +139,23 @@ const ProductCard = ({ product, showDiscount = false }: ProductCardProps) => {
           <span className="text-xs text-gray-500">Đã bán {product.sold}</span>
         </div>
 
+        {/* Shop Info */}
+        {product.shop && (
+          <div className="flex items-center space-x-1 text-xs text-gray-600 mb-1">
+            <Store className="h-3 w-3 text-green-600" />
+            <span className="font-medium">{product.shop.name}</span>
+            {product.shop.isVerified && (
+              <span className="text-green-600 font-bold">✓</span>
+            )}
+            {product.shop.rating && (
+              <div className="flex items-center space-x-1 ml-2">
+                <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                <span className="text-xs">{product.shop.rating}</span>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Location */}
         {product.location && (
           <div className="flex items-center space-x-1 text-xs text-gray-500">
@@ -156,10 +165,10 @@ const ProductCard = ({ product, showDiscount = false }: ProductCardProps) => {
         )}
 
         {/* Trust Indicators */}
-        <div className="flex items-center space-x-2 mt-2">
+        <div className="flex items-center space-x-2 mt-auto pt-2">
           {product.isVerified && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
-              <Shield className="h-3 w-3 mr-1" />
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gradient-to-r from-yellow-100 to-orange-100 text-orange-800">
+              <span className="text-xs font-bold mr-1">VIP</span>
               Đã xác thực
             </span>
           )}
