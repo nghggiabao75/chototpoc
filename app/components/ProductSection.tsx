@@ -1,7 +1,7 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 
 interface ProductSectionProps {
@@ -11,6 +11,25 @@ interface ProductSectionProps {
 
 const ProductSection = ({ title, subtitle }: ProductSectionProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      if (window.innerWidth < 640) {
+        setItemsPerPage(1); // Mobile: 1 item
+      } else if (window.innerWidth < 768) {
+        setItemsPerPage(2); // Small tablet: 2 items
+      } else if (window.innerWidth < 1024) {
+        setItemsPerPage(3); // Tablet: 3 items
+      } else {
+        setItemsPerPage(4); // Desktop: 4 items
+      }
+    };
+
+    updateItemsPerPage();
+    window.addEventListener('resize', updateItemsPerPage);
+    return () => window.removeEventListener('resize', updateItemsPerPage);
+  }, []);
 
   // Mock product data
   const products = [
@@ -23,7 +42,12 @@ const ProductSection = ({ title, subtitle }: ProductSectionProps) => {
       sold: 45,
       location: 'TP. Hồ Chí Minh',
       isVerified: true,
-      isFreeShipping: false
+      isFreeShipping: false,
+      shop: {
+        name: 'Office Style',
+        rating: 4.4,
+        isVerified: true
+      }
     },
     {
       id: 2,
@@ -34,7 +58,12 @@ const ProductSection = ({ title, subtitle }: ProductSectionProps) => {
       sold: 32,
       location: 'Hà Nội',
       isVerified: false,
-      isFreeShipping: true
+      isFreeShipping: true,
+      shop: {
+        name: 'Elegant Fashion',
+        rating: 4.2,
+        isVerified: false
+      }
     },
     {
       id: 3,
@@ -45,7 +74,12 @@ const ProductSection = ({ title, subtitle }: ProductSectionProps) => {
       sold: 67,
       location: 'Đà Nẵng',
       isVerified: true,
-      isFreeShipping: true
+      isFreeShipping: true,
+      shop: {
+        name: 'Men\'s Corner',
+        rating: 4.3,
+        isVerified: true
+      }
     },
     {
       id: 4,
@@ -56,7 +90,12 @@ const ProductSection = ({ title, subtitle }: ProductSectionProps) => {
       sold: 28,
       location: 'TP. Hồ Chí Minh',
       isVerified: true,
-      isFreeShipping: false
+      isFreeShipping: false,
+      shop: {
+        name: 'Winter Collection',
+        rating: 4.6,
+        isVerified: true
+      }
     },
     {
       id: 5,
@@ -67,7 +106,12 @@ const ProductSection = ({ title, subtitle }: ProductSectionProps) => {
       sold: 19,
       location: 'Hà Nội',
       isVerified: false,
-      isFreeShipping: false
+      isFreeShipping: false,
+      shop: {
+        name: 'Leather Craft',
+        rating: 4.1,
+        isVerified: false
+      }
     },
     {
       id: 6,
@@ -78,38 +122,35 @@ const ProductSection = ({ title, subtitle }: ProductSectionProps) => {
       sold: 41,
       location: 'TP. Hồ Chí Minh',
       isVerified: true,
-      isFreeShipping: true
+      isFreeShipping: true,
+      shop: {
+        name: 'Luxury Bags',
+        rating: 4.8,
+        isVerified: true
+      }
     }
   ];
 
-  const itemsPerPage = 4;
   const maxIndex = Math.max(0, products.length - itemsPerPage);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => Math.min(prev + 1, maxIndex));
+    setCurrentIndex((prev) => (prev + 1) % (maxIndex + 1));
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => Math.max(prev - 1, 0));
+    setCurrentIndex((prev) => (prev - 1 + maxIndex + 1) % (maxIndex + 1));
   };
 
 
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 my-4">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-            {title}
-          </h2>
-          <div className="w-24 h-1 bg-green-500 rounded-full"></div>
-        </div>
-        <button
-          className="text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
-        >
-          {subtitle}
-        </button>
+      <div className="text-center mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+          {title}
+        </h2>
+        <div className="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
       </div>
 
       {/* Products Container */}
@@ -117,8 +158,7 @@ const ProductSection = ({ title, subtitle }: ProductSectionProps) => {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          disabled={currentIndex === 0}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 hover:shadow-xl hover:scale-110 transition-all duration-200 cursor-pointer"
           aria-label="Previous products"
         >
           <ChevronLeft className="h-6 w-6 text-gray-600" />
@@ -126,8 +166,7 @@ const ProductSection = ({ title, subtitle }: ProductSectionProps) => {
 
         <button
           onClick={nextSlide}
-          disabled={currentIndex >= maxIndex}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 hover:shadow-xl hover:scale-110 transition-all duration-200 cursor-pointer"
           aria-label="Next products"
         >
           <ChevronRight className="h-6 w-6 text-gray-600" />
@@ -142,12 +181,21 @@ const ProductSection = ({ title, subtitle }: ProductSectionProps) => {
             {products.map((product) => (
               <div
                 key={product.id}
-                className="w-full sm:w-1/2 lg:w-1/4 flex-shrink-0 px-2"
+                className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex-shrink-0 px-2 pb-4"
               >
                 <ProductCard product={product} showDiscount={false} />
               </div>
             ))}
           </div>
+        </div>
+
+        {/* View All Link */}
+        <div className="text-center mt-4 sm:mt-6">
+          <button
+            className="inline-flex items-center px-4 sm:px-6 py-2.5 sm:py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 hover:shadow-lg hover:scale-105 transition-all duration-200 shadow-md text-sm sm:text-base min-h-[44px] cursor-pointer"
+          >
+            {subtitle}
+          </button>
         </div>
       </div>
     </section>

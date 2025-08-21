@@ -12,28 +12,31 @@ export default function Home() {
       {/* Header với navigation */}
       <Header />
 
-      {/* Hero Banner */}
-      <HeroBanner />
+      {/* Main Content */}
+      <main className="space-y-8">
+        {/* Hero Banner */}
+        <HeroBanner />
 
-      {/* Category Section */}
-      <CategorySection />
+        {/* Category Section */}
+        <CategorySection />
 
-      {/* Hot Deals Section */}
-      <HotDealsSection />
+        {/* Hot Deals Section */}
+        <HotDealsSection />
 
-      {/* Product Sections */}
-      <ProductSection
-        title="VỪA MỚI ĐĂNG"
-        subtitle="Xem tất cả"
-      />
+        {/* Product Sections */}
+        <ProductSection
+          title="VỪA MỚI ĐĂNG"
+          subtitle="Xem tất cả"
+        />
 
-      <ProductSection
-        title="XEM NHIỀU NHẤT"
-        subtitle="Xem tất cả"
-      />
+        <ProductSection
+          title="XEM NHIỀU NHẤT"
+          subtitle="Xem tất cả"
+        />
 
-      {/* Brand Section */}
-      <BrandSection />
+        {/* Brand Section */}
+        <BrandSection />
+      </main>
 
       {/* Footer */}
       <Footer />
